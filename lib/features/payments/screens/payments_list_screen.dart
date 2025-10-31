@@ -7,6 +7,7 @@ import 'payment_form_screen.dart';
 import 'favorites_screen.dart';
 import 'settings_screen.dart';
 import 'about_developer_screen.dart';
+import '../payment_provider.dart';
 
 enum SortOption { nearestDate, category, amount }
 
@@ -18,18 +19,17 @@ class PaymentsListScreen extends StatefulWidget {
 }
 
 class _PaymentsListScreenState extends State<PaymentsListScreen> {
-  List<Payment> get _payments => PaymentRepository.payments;
 
   SortOption _sortOption = SortOption.nearestDate;
   String _searchQuery = '';
   String _filterCategory = 'Все';
 
   void _markPaymentAsPaid(String id) {
-    setState(() => PaymentRepository.markAsPaid(id));
+    setState(() => PaymentProvider.of(context).paymentRepo.markAsPaid(id));
   }
 
   void _deletePayment(String id) {
-    setState(() => PaymentRepository.deletePayment(id));
+    setState(() => PaymentProvider.of(context).paymentRepo.deletePayment(id));
   }
 
   void _toggleFavorite(Payment payment) {
@@ -40,7 +40,7 @@ class _PaymentsListScreenState extends State<PaymentsListScreen> {
 
   List<Payment> _getSortedPayments() {
     final now = DateTime.now();
-    final sorted = List<Payment>.from(_payments);
+    final sorted = List<Payment>.from(PaymentProvider.of(context).paymentRepo.payments);
     switch (_sortOption) {
       case SortOption.nearestDate:
         sorted.sort((a, b) => a.nextDate.difference(now).inDays.compareTo(b.nextDate.difference(now).inDays));

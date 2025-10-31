@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../../../data/payment_repository.dart';
 import '../models/payment.dart';
+import '../payment_provider.dart';
 import 'payments_list_screen.dart';
 
 class PaymentFormScreen extends StatefulWidget {
@@ -47,7 +48,7 @@ class _PaymentFormScreenState extends State<PaymentFormScreen> {
         nextDate: parsedDate,
         period: _selectedPeriod,
       );
-      PaymentRepository.addPayment(payment);
+      PaymentProvider.of(context).paymentRepo.addPayment(payment);
     } catch (_) {
       return;
     }
