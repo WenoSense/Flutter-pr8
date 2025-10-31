@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import '../../../data/payment_repository.dart';
 import '../models/payment.dart';
@@ -7,7 +8,6 @@ import 'payment_form_screen.dart';
 import 'favorites_screen.dart';
 import 'settings_screen.dart';
 import 'about_developer_screen.dart';
-import '../payment_provider.dart';
 
 enum SortOption { nearestDate, category, amount }
 
@@ -25,11 +25,11 @@ class _PaymentsListScreenState extends State<PaymentsListScreen> {
   String _filterCategory = 'Все';
 
   void _markPaymentAsPaid(String id) {
-    setState(() => PaymentProvider.of(context).paymentRepo.markAsPaid(id));
+    setState(() => GetIt.I<PaymentRepository>().markAsPaid(id));
   }
 
   void _deletePayment(String id) {
-    setState(() => PaymentProvider.of(context).paymentRepo.deletePayment(id));
+    setState(() => GetIt.I<PaymentRepository>().deletePayment(id));
   }
 
   void _toggleFavorite(Payment payment) {
@@ -40,7 +40,7 @@ class _PaymentsListScreenState extends State<PaymentsListScreen> {
 
   List<Payment> _getSortedPayments() {
     final now = DateTime.now();
-    final sorted = List<Payment>.from(PaymentProvider.of(context).paymentRepo.payments);
+    final sorted = List<Payment>.from(GetIt.I<PaymentRepository>().payments);
     switch (_sortOption) {
       case SortOption.nearestDate:
         sorted.sort((a, b) => a.nextDate.difference(now).inDays.compareTo(b.nextDate.difference(now).inDays));

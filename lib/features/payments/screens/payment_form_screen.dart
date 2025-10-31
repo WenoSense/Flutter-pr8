@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../../../data/payment_repository.dart';
 import '../models/payment.dart';
-import '../payment_provider.dart';
 import 'payments_list_screen.dart';
 
 class PaymentFormScreen extends StatefulWidget {
@@ -48,7 +48,7 @@ class _PaymentFormScreenState extends State<PaymentFormScreen> {
         nextDate: parsedDate,
         period: _selectedPeriod,
       );
-      PaymentProvider.of(context).paymentRepo.addPayment(payment);
+      GetIt.I<PaymentRepository>().addPayment(payment);
     } catch (_) {
       return;
     }

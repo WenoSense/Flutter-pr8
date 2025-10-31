@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import '../../../data/payment_repository.dart';
-import '../payment_provider.dart';
 
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final favorites = PaymentProvider.of(context).paymentRepo.payments.where((p) => p.isFavorite).toList();
+    final favorites = GetIt.I<PaymentRepository>().payments.where((p) => p.isFavorite).toList();
 
     return Scaffold(
       appBar: AppBar(
